@@ -29,17 +29,19 @@ public abstract class AbstractTiming<S,T> {
         int computation = 7;
         T o = setUp();
         Runtime runt = Runtime.getRuntime();
+        
         System.gc();
         System.gc();
         System.gc();
-        long before = runt.totalMemory() - runt.freeMemory();
+        long before = runt.totalMemory();
+        
         Result<S> res = doWork(o);
        
         System.gc();
         System.gc();
         System.gc();
-        long after = runt.totalMemory() - runt.freeMemory();
-        
+        long after = runt.totalMemory();
+
         computation |= res.getIntParam();
             
         System.out.printf("%d\n", computation);
