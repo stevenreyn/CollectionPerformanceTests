@@ -1,39 +1,75 @@
 package net.slreynolds.ds;
 
-public abstract class AbstractTiming<T> {
+/**
+ * Base class for timing tests.
+ *
+ * @param <S> Type parameter of Result that has memory reference accumulated during
+ * doWork
+ * @param <T> Type of object returned from setUp and passed as an argument to doWork
+ */
+public abstract class AbstractTiming<S,T> {
     
     protected abstract T setUp();
 
-    protected abstract int doWork(T o);
+    protected abstract Result<S> doWork(T o);
     
     private int warmUp(int N) {
         T o;
-        int res = 7;
+        int computation = 7;
         for (int i = 0; i < N; i++) {
             o = setUp();
-            res |= doWork(o);
+            Result<S> res = doWork(o); 
+            computation |= res.getIntParam();
         }
-        return res;
+        return computation;
+    }
+    
+    private long measureSpace() {
+        
+        int computation = 7;
+        T o = setUp();
+        Runtime runt = Runtime.getRuntime();
+        System.gc();
+        System.gc();
+        System.gc();
+        long before = runt.totalMemory() - runt.freeMemory();
+        Result<S> res = doWork(o);
+       
+        System.gc();
+        System.gc();
+        System.gc();
+        long after = runt.totalMemory() - runt.freeMemory();
+        
+        computation |= res.getIntParam();
+            
+        System.out.printf("%d\n", computation);
+        return Math.max(0,(after - before)); 
     }
     
     private long[] timeIt(int N) {
-        long[] times = new long[N];
-        int res = 7;
+        final long[] times = new long[N];
+        int computation = 7;
+        long before = 0;
+        long after = 0;
+        T o = null;
+        Result<S> res = null;
         for(int i = 0; i < N; i++) {
-            T o = setUp();
-            long before = System.nanoTime();
-            res |= doWork(o);
-            long after = System.nanoTime();
+            o = setUp();
+            before = System.nanoTime();
+            res = doWork(o);
+            after = System.nanoTime();
+            computation |= res.getIntParam();
             times[i] = after - before;
         }
-        System.out.printf("%d\n", res);
+        System.out.printf("%d\n", computation);
         return times;
     }
     
     public void run(String title) {
         int res = warmUp(20);
         long[] times = timeIt(5);
-        System.out.printf("Times for %s (%d)\n", title,res);
+        System.out.printf("%s uses %d bytes\n",title, measureSpace());
+        System.out.printf("Times (%d)\n",res);
         for (int i = 0; i < times.length; i++) {
             System.out.printf("%f ", times[i]/1.0E9);
         }
