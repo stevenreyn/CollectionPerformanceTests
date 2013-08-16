@@ -38,7 +38,7 @@ object ScalaIntMapTiming extends AbstractTiming[IntMap[SomeValue], IntMap[SomeVa
     }
     
     def main(args: Array[String]): Unit = {
-        run("Int Scala mutable HashMap")
+        run("Scala IntMap")
     }
 
 }
