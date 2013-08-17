@@ -69,9 +69,10 @@ public abstract class AbstractTiming<S,T> {
     
     public void run(String title) {
         int res = warmUp(20);
-        long[] times = timeIt(5);
+        System.out.printf("res (%d)\n",res);
         System.out.printf("%s uses %d bytes\n",title, measureSpace());
-        System.out.printf("Times (%d)\n",res);
+        long[] times = timeIt(5);
+        System.out.printf("Times (seconds)\n");
         for (int i = 0; i < times.length; i++) {
             System.out.printf("%f ", times[i]/1.0E9);
         }

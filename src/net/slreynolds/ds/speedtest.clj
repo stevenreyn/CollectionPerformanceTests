@@ -46,5 +46,17 @@
         times
         (recur ((dec ctr) times (+ computation (. res getIntParam))))))))
       
-          
+       
+; Run tests: warmup, measure-space, and then timeit
+; Print results
+(defn run [setup dowork title]
+  (let [res (warmup setup dowork 20)]
+    (print "res " res)
+    (let [space (measure-space setup dowork)
+          times (timeit setup dowork 5)]
+      (print title " uses " space " bytes ")
+      (print "Times (seconds)")
+      (print times))))
+        
+        
 
