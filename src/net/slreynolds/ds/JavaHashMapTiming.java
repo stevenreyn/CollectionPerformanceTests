@@ -8,7 +8,8 @@ public class JavaHashMapTiming extends AbstractTiming<HashMap, HashMap> {
 
 	final Tuple2[] _valuesToInsert = IntMapSource.valuesToInsert();
 	
-    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
     protected Result<HashMap> doWork(HashMap map) {
         
         final Tuple2[] vals = _valuesToInsert;
@@ -19,7 +20,8 @@ public class JavaHashMapTiming extends AbstractTiming<HashMap, HashMap> {
         return new Result(map,map.size());
     }
     
-    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
     protected HashMap setUp() {
         HashMap baseHMap = new HashMap();
         for (int i = 0; i < IntMapSource.initialSize(); i++) {
