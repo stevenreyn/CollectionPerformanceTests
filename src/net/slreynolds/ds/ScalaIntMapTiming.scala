@@ -6,21 +6,11 @@ import scala.collection.immutable.IntMap;
 
 object ScalaIntMapTiming extends AbstractTiming[IntMap[SomeValue], IntMap[SomeValue]] {
 
-	private val valuesToInsert: Array[Tuple2[Int,SomeValue]] = makeValues(IntMapTimingParameters.numToInsert)
-	
-	private def makeValues(n: Int) : Array[Tuple2[Int,SomeValue]] = {
-	  val valsToIns:  Array[Tuple2[Int,SomeValue]] = new Array(n)
-	  for (i <- 0 to n-1) {
-            val j = i + IntMapTimingParameters.initialSize;
-            valsToIns(i) = new Tuple2(j,new SomeValue(j));
-        }
-	  valsToIns
-	}
-	
+
     @Override
     def doWork(map: IntMap[SomeValue]  ): Result[IntMap[SomeValue]] = {
         var lmap : IntMap[SomeValue] = map
-        val vals = valuesToInsert
+        val vals = IntMapSource.valuesToInsert
         val n = IntMapTimingParameters.numToInsert
         for (i <- 0 to n-1)  {
             lmap += (vals(i))
