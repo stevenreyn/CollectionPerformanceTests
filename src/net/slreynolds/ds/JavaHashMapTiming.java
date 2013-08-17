@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 public class JavaHashMapTiming extends AbstractTiming<HashMap, HashMap> {
 
+	
+	@SuppressWarnings("rawtypes")
 	final Tuple2[] _valuesToInsert = IntMapSource.valuesToInsert();
 	
     @SuppressWarnings({ "rawtypes", "unchecked" })
