@@ -1,5 +1,7 @@
 (ns net.slreynolds.ds.speedtest)
 
+; Measure space (bytes) consumed by side effects
+; of dowork
 (defn measure-space[setup dowork]
       
         (let [computation 7
