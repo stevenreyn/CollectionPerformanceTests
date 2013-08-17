@@ -30,5 +30,21 @@
                 otherComp (+ computation (. res getIntParam))]
             (Math/max 0 (- after before)))))
 
-            
-              
+   
+; Do dowork N times and record the time taken.
+; Return list of times
+(defn timeit[setup dowork N]
+  (loop [ctr (- N 1)
+         times (vector)
+         computation 7]
+    (let [o (setup)
+          before (System/nanotime)
+          res (dowork o)
+          after (System/nanotime)
+          (conj times (- after before))]
+      (if (zero? ctr)
+        times
+        (recur ((dec ctr) times (+ computation (. res getIntParam))))))))
+      
+          
+
