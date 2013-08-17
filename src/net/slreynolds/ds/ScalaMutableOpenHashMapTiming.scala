@@ -12,7 +12,7 @@ object ScalaMutableOpenHashMapTiming extends AbstractTiming[OpenHashMap[Int,Some
     def doWork(map: OpenHashMap[Int,SomeValue]  ): Result[OpenHashMap[Int,SomeValue]] = {
         var lmap : OpenHashMap[Int,SomeValue] = map
         val vals = IntMapSource.valuesToInsert
-        val n = IntMapTimingParameters.numToInsert
+        val n = IntMapSource.numToInsert
         for (i <- 0 to n-1)  {
             lmap += (vals(i))
         }
@@ -22,7 +22,7 @@ object ScalaMutableOpenHashMapTiming extends AbstractTiming[OpenHashMap[Int,Some
     @Override
     def setUp() : OpenHashMap[Int,SomeValue] = {
         var baseHMap : OpenHashMap[Int,SomeValue] = new OpenHashMap();
-        for (i <- 0 to IntMapTimingParameters.initialSize-1)  {
+        for (i <- 0 to IntMapSource.initialSize-1)  {
              baseHMap += (new Tuple2(i,new SomeValue(i)))
         }
         baseHMap

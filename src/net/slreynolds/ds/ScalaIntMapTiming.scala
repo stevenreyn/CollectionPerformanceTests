@@ -11,7 +11,7 @@ object ScalaIntMapTiming extends AbstractTiming[IntMap[SomeValue], IntMap[SomeVa
     def doWork(map: IntMap[SomeValue]  ): Result[IntMap[SomeValue]] = {
         var lmap : IntMap[SomeValue] = map
         val vals = IntMapSource.valuesToInsert
-        val n = IntMapTimingParameters.numToInsert
+        val n = IntMapSource.numToInsert
         for (i <- 0 to n-1)  {
             lmap += (vals(i))
         }
@@ -21,7 +21,7 @@ object ScalaIntMapTiming extends AbstractTiming[IntMap[SomeValue], IntMap[SomeVa
     @Override
     def setUp() : IntMap[SomeValue] = {
         var baseHMap : IntMap[SomeValue] = IntMap.empty
-        for (i <- 0 to IntMapTimingParameters.initialSize-1)  {
+        for (i <- 0 to IntMapSource.initialSize-1)  {
              baseHMap += (new Tuple2(i,new SomeValue(i)))
         }
         baseHMap
