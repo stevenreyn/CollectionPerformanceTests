@@ -4,15 +4,16 @@ package net.slreynolds.ds;
  * A simple class that we can put into containers.
  *
  */
-class SomeValue {
+public class SomeValue {
     private final int something;
-    SomeValue(int i) {
+    public SomeValue(int i) {
         this.something = i;
     }
-    SomeValue(Integer i) {
+    public SomeValue(Integer i) {
         this.something = i.intValue();
     }
-    int getSomething() {
+    
+    public int getSomething() {
         return something;
     }
 }
