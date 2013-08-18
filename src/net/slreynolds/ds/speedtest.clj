@@ -1,6 +1,6 @@
 (ns net.slreynolds.ds.speedtest)
 
-; Does not work yet
+;;; Does not work yet
 
 ; Warmup the jit compiler etc in the JVM
 ; before doing any measurements
@@ -13,7 +13,7 @@
            newComp))))
            
 
-; Measure space (bytes) consumed by side effects
+; Measure space (bytes) consumed by result of
 ; of dowork
 (defn measure-space[setup dowork]
       
@@ -33,11 +33,11 @@
             (Math/max 0 (- after before)))))
 
    
-; Do dowork N times and record the time taken.
+; Do setup and then dowork N times. Record the times taken in dowork.
 ; Return list of times
 (defn timeit[setup dowork N]
   (loop [ctr (- N 1)
-         times (vector)
+         times []
          computation 7]
     (let [o (setup)
           before (System/nanotime)
@@ -60,5 +60,23 @@
       (print "Times (seconds)")
       (print times))))
         
-        
+(defn htsetup[]
+  (let [is (range 0 (- IntMapSource/initialSize 1))
+        vs (map #(SomeValue. %) is)
+        themap (hash-map (interleave is vs))]
+    themap))
 
+(defn htdowork[themap]
+  ; Note doing a lot of extra work here!
+  ; Making a list ahead of time would be better
+  (let [vs (list IntMapSource/valuesToInsert)]
+    (loop [map themap
+          [firstv restv]]
+      (if (nilp restv)
+        (dosomething)
+        (do
+          (somemmthing)
+          (recur blah blah))))))
+
+(defn htrun[]
+  (run htsetup htdowork "Clojure hash map"))
