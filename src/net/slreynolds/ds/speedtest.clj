@@ -1,6 +1,6 @@
 (ns net.slreynolds.ds.speedtest)
 
-;;; Does not work yet
+;;; Caution: does not work yet
 
 ; Warmup the jit compiler etc in the JVM
 ; before doing any measurements
@@ -60,23 +60,24 @@
       (print "Times (seconds)")
       (print times))))
         
+; setup implmentation for std clojure hashmap
 (defn htsetup[]
   (let [is (range 0 (- IntMapSource/initialSize 1))
         vs (map #(SomeValue. %) is)
         themap (hash-map (interleave is vs))]
     themap))
 
+; dowork implementation for std clojure hashmap
 (defn htdowork[themap]
   ; Note doing a lot of extra work here!
-  ; Making a list ahead of time would be better
-  (let [vs (list IntMapSource/valuesToInsert)]
-    (loop [map themap
-          [firstv restv]]
-      (if (nilp restv)
-        (dosomething)
-        (do
-          (somemmthing)
-          (recur blah blah))))))
+  ; Making a list ahead of time is very important!!!!
+  (let [list-of-vs (list IntMapSource/valuesToInsert)]
+    (loop [newmap themap
+           vs list-of-vs] 
+      (if (empty vs)
+        newmap
+        (recur (assoc newmap (first vs) (rest vs)))))
 
+; Run the test for std clojure hashmap
 (defn htrun[]
   (run htsetup htdowork "Clojure hash map"))
