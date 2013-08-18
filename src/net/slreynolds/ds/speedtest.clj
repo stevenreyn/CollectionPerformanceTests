@@ -1,5 +1,7 @@
 (ns net.slreynolds.ds.speedtest)
 
+; Does not work yet
+
 ; Warmup the jit compiler etc in the JVM
 ; before doing any measurements
 (defn warmup[setup dowork]

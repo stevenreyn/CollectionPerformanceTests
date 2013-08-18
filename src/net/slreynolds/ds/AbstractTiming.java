@@ -78,5 +78,4 @@ public abstract class AbstractTiming<S,T> {
         }
         System.out.printf("\n");
     }
-
 }
