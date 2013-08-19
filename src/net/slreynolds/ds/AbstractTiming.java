@@ -24,27 +24,34 @@ public abstract class AbstractTiming<S,T> {
         return computation;
     }
     
+    private void sleep() {
+        try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// don't care
+		}
+    }
+    
+    private long getMemoryUsed() {
+        Runtime runt = Runtime.getRuntime();
+        System.gc();
+        System.gc();
+        System.gc();
+        sleep();
+        System.gc();
+        System.gc();
+        sleep();
+        return runt.totalMemory();
+    }
+    
     private long measureSpace() {
         
         int computation = 7;
         T o = setUp();
-        Runtime runt = Runtime.getRuntime();
-        
-        System.gc();
-        System.gc();
-        System.gc();
-        System.gc();
-        System.gc();
-        long before = runt.totalMemory();
+        long before = getMemoryUsed();
         
         Result<S> res = doWork(o);
-       
-        System.gc();
-        System.gc();
-        System.gc();
-        System.gc();
-        System.gc();
-        long after = runt.totalMemory();
+        long after = getMemoryUsed();
 
         computation |= res.getIntParam();
             
