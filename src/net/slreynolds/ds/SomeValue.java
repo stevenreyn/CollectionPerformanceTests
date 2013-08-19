@@ -9,11 +9,14 @@ public class SomeValue {
     public SomeValue(int i) {
         this.something = i;
     }
-    public SomeValue(Integer i) {
-        this.something = i.intValue();
+    public SomeValue(Long i) {
+        this.something = (int)i.intValue();
     }
     
     public int getSomething() {
         return something;
+    }
+    public String toString() {
+    	return "SomeValue(" + something + ")";
     }
 }
