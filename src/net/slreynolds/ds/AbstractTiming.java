@@ -32,6 +32,9 @@ public abstract class AbstractTiming<S,T> {
 		}
     }
     
+    /*
+     * Results from this method are fairly bogus
+     */
     private long getMemoryUsed() {
         Runtime runt = Runtime.getRuntime();
         System.gc();
@@ -81,7 +84,8 @@ public abstract class AbstractTiming<S,T> {
     public void run(String title) {
         int res = warmUp(20);
         System.out.printf("res (%d)\n",res);
-        System.out.printf("%s uses %d, %d, %d bytes\n",title, measureSpace(), measureSpace(), measureSpace());
+        // Don't print space statistics; they're unreliable
+        //System.out.printf("%s uses %d, %d, %d bytes\n",title, measureSpace(), measureSpace(), measureSpace());
         long[] times = timeIt(5);
         System.out.printf("Times (seconds)\n");
         for (int i = 0; i < times.length; i++) {
