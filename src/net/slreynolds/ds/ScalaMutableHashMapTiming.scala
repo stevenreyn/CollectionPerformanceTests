@@ -6,10 +6,7 @@ import scala.collection.mutable.HashMap;
 
 object ScalaMutableHashMapTiming extends AbstractTiming[HashMap[Int,SomeValue], HashMap[Int,SomeValue]] {
 
-
-	
-    @Override
-    def doWork(map: HashMap[Int,SomeValue]  ): Result[HashMap[Int,SomeValue]] = {
+    def doInsertWork(map: HashMap[Int,SomeValue]  ): Result[HashMap[Int,SomeValue]] = {
         var lmap : HashMap[Int,SomeValue] = map
         val vals = IntMapSource.valuesToInsert
         val n = IntMapSource.numToInsert
@@ -17,6 +14,22 @@ object ScalaMutableHashMapTiming extends AbstractTiming[HashMap[Int,SomeValue], 
             lmap += (vals(i))
         }
         new Result(lmap,lmap.size)
+    }
+    
+    @Override
+    def doWork(map: HashMap[Int,SomeValue]  ): Result[HashMap[Int,SomeValue]] = {
+        var lmap : HashMap[Int,SomeValue] = map
+        val keys = IntMapSource.keysToLookUp
+        val n = keys.length
+        var res : Option[SomeValue] = None
+        for (i <- 0 to n-1)  {
+            res = lmap.get(keys(i))
+        }
+        val something = res match  {
+          case None => 1
+          case Some(sValue) => sValue.getSomething()
+        }
+        new Result(lmap,something)
     }
     
     @Override
